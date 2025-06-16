@@ -1,0 +1,28 @@
+/* ===== ORDINE COMPONENT - ordine.component.css ===== */
+
+
+.ordine-card {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  
+}
+
+@media (min-width: 768px) {
+  .ordine-card {
+    width: 50%;
+  }
+}
+
+
+
+.ordine-img {
+  max-height: 200px;
+ 
+}
+
+.ordine-totale {
+  text-align: end;
+
+}
+

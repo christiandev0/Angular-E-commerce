@@ -1,0 +1,31 @@
+.dashboard-container {
+  
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+.card {
+  border-radius: 1rem;
+  background-color: #f8f9fa;
+}
+
+.card h4 {
+  font-weight: 600;
+}
+
+label {
+  font-weight: 500;
+}
+
+input[disabled] {
+  background-color: #e9ecef;
+  cursor: not-allowed;
+}
+
+button {
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}

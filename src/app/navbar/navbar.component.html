@@ -1,0 +1,116 @@
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+      
+      <a class="navbar-brand" href="#">MovieWorld</a>
+      
+      
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      
+      <div class="collapse navbar-collapse" id="navbarNav">
+          
+          <ul class="navbar-nav mx-auto">
+              <li class="nav-item">
+                  <a class="nav-link" routerLink="/homepage">{{"Homepage"|translate }}</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" routerLink="/catalogo">{{"Catalogo"|translate}}</a>
+              </li>
+              
+          </ul>
+          
+          
+          <ul class="navbar-nav ms-auto">
+              
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  {{"Lingua"|translate }}
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li>
+                      <button class="dropdown-item d-flex align-items-center px-2 py-1" (click)="useLanguage('en')">
+                          <img src="assets/Bandiera ENG.png" 
+                               [alt]="'Inglese' | translate" 
+                               class="img-fluid me-2"
+                               style="max-width: 24px; height: auto;">
+                          EN
+                      </button>
+                  </li>
+                  <li>
+                      <button class="dropdown-item d-flex align-items-center px-2 py-1" (click)="useLanguage('it')">
+                          <img src="assets/bandiera IT.png" 
+                               [alt]="'Italiano' | translate" 
+                               class="img-fluid me-2"
+                               style="max-width: 24px; height: auto;">
+                          IT
+                      </button>
+                  </li>
+              </ul>
+          </li>
+              
+              @if (isAuthenticated) {
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <ngx-avatars 
+                    [name]="username" 
+                    [size]="25" 
+                    [round]="true">
+                  </ngx-avatars>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" routerLink="/dashboard">{{"Profilo" | translate}}</a></li>
+                    <li><a class="dropdown-item" routerLink="/carrello">{{"Carrello" | translate}}</a></li>
+                    <li><a class="dropdown-item" routerLink="/ordini">{{"Ordini" | translate}}</a></li>
+
+                    <li><button class="dropdown-item" (click)="logout()">{{"Logout"|translate }}</button></li>
+                  </ul>
+                </li>
+              }
+              
+              @else {
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#loginModal">{{"Accedi" | translate}}</a></li>
+                        <li><a class="dropdown-item" routerLink="/register">{{"Registrati" | translate}}</a></li>      
+                    </ul>
+                </li>
+            }
+            
+            </ul>
+            
+            </div>
+            </div>
+            </nav>
+
+           
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="loginModalLabel">Login</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="login()">
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input type="text" id="username" class="form-control" [(ngModel)]="loginData.username" name="username" required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" id="password" class="form-control" [(ngModel)]="loginData.password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Login</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+

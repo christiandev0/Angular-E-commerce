@@ -1,0 +1,269 @@
+<ng-container *ngIf="(Film$ | async) as film; else loading">
+  <ng-container *ngIf="film.attivo; else loading">
+    <div class="position-fixed top-0 start-0 w-100 h-100"
+         [ngStyle]="{'background': 'url(' + film.urlLocandina + ') no-repeat center center/cover', 'filter': 'blur(10px)', 'z-index': '-1'}">
+    </div>
+  
+    <div class="container d-flex align-items-center justify-content-center my-5 text-center">
+      <div class="card bg-dark border-light text-center p-4" style="width: 60vh;">
+        <img [src]="film.urlLocandina" class="card-img-top rounded" 
+        (error)="onImageError($event)"
+        [ngStyle]="{'filter': film.quantita === 0 ? 'grayscale(100%) brightness(0.7) opacity(0.8)' : 'none'}" />
+
+        <div class="card-body">
+          <h2 class="card-title text-light">{{film.titolo}}</h2>
+  
+          <div class="d-flex justify-content-center gap-2 my-2">
+            <span class="badge rounded-pill text-bg-secondary m-1" *ngFor="let genere of film.iDgeneres">{{genere.categoria | translate}}</span>
+          </div>
+  
+          <p class="card-text text-light">{{film.descrizione}}</p>
+  
+          <div class="d-flex flex-column align-items-center gap-4 p-4">
+            <div class="d-flex justify-content-center gap-3 mb-4 ">
+              <button type="button" class="btn btn-primary btn-lg details-button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                {{"Guarda ora"| translate}}
+              </button>
+                <button class="btn btn-primary details-button" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#puntoVenditaModal" 
+                    (click)="getPuntovenditaById(film.iDfilm)" 
+                    [disabled]="film.quantita === 0">
+                {{ "Aggiungi al carrello" | translate }} <i class="fa-solid fa-cart-shopping"></i>
+
+
+                </button>
+            </div>
+            <div *ngIf="film.quantita === 0" class="text-warning text-center mt-3">
+              <i class="bi bi-exclamation-triangle-fill fs-1 mb-2"></i>
+              <div>{{ "Questo film non è attualmente disponibile" | translate }}</div>
+            </div>
+            
+            
+            @if(film){
+
+              <app-details-card [film]="film"></app-details-card>
+            }
+  
+          <!-- Accordion Cast nella scheda Film -->
+      <div class="accordion w-75" id="accordionExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+              {{ "Cast" | translate }}
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse show">
+            <div class="accordion-body">
+              <div class="d-flex flex-wrap gap-3">
+                <app-cast-card *ngFor="let actor of film.iDcasts" [castData]="actor"><p></app-cast-card>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+  
+           
+                  <!-- Writer -->
+      <div class="accordion w-75" id="accordionExample2">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              {{"Writer" | translate}}
+            </button>
+          </h2>
+          <div id="collapseTwo" class="accordion-collapse collapse">
+            <div class="accordion-body">
+              <div class="container">
+                <div class="row">
+                  <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4" *ngFor="let regista of film.iDregista">
+                    <app-cast-card [castData]="regista"></app-cast-card>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Punto Vendita Modal -->
+
+    <div class="modal fade" id="puntoVenditaModal" tabindex="-1" aria-labelledby="puntoVenditaModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content bg-dark text-light">
+          <div class="modal-header">
+            <h5 class="modal-title" id="puntoVenditaModalLabel">
+              {{ "Seleziona un punto vendita" | translate }}
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+  <div class="modal-body">
+  <ng-container *ngIf="isAuthenticated; else noAuth">
+    <ng-container *ngIf="(Puntovendita$ | async)?.length > 0; else noData">
+      <div class="list-group">
+        <label 
+          *ngFor="let PV of Puntovendita$ | async" 
+          class="list-group-item list-group-item-action flex-column align-items-start"
+          [class.active]="selectedPV === PV"
+          (click)="selectPuntoVendita(PV)">
+          
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{ PV.nome }}</h5>
+            <small>{{ PV.telefono }}</small>
+          </div>
+          <p class="mb-1">{{ PV.indirizzo }}</p>
+          <p class="mb-1">
+            {{"Disponibilità"| translate}}: {{ PV.disponibilitas.length > 0 ? PV.disponibilitas[0].quantita : 0 }}
+          </p>
+        </label>
+      </div>
+  
+      <div *ngIf="selectedPV" class="mt-4 border-top pt-3">
+        <h6>{{ film.titolo }}</h6>
+        <p>{{ "Prezzo" | translate }}: {{ film.prezzo | currency }}</p>
+      </div>
+      
+      <div class="form-group mt-2" *ngIf="selectedPV">
+        <label for="quantitaInput">{{ "Quantità" | translate }}</label>
+        <input
+          id="quantitaInput"
+          type="number"
+          min="1"
+          [max]="getMaxQuantita()"
+          [(ngModel)]="quantita"
+          (ngModelChange)="validateQuantita()"
+          name="quantita"
+          class="form-control"
+          [placeholder]="'Quantità disponibile: ' + getMaxQuantita()"
+        />
+        <small class="text-danger" *ngIf="quantitaError">
+          {{"La quantità non può superare"| translate}} {{ getMaxQuantita() }}
+        </small>
+      </div>
+    </ng-container>
+  </ng-container>
+    
+
+  
+  <ng-template #noAuth>
+    <p>{{"Effettua il login per vedere i punti vendita disponibili"| translate}}.</p>
+  </ng-template>
+  
+  <ng-template #noData>
+    <p>{{"Nessun punto vendita disponibile per questo film."| translate}}</p>
+  </ng-template>
+</div>
+          
+    
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              {{ "Annulla" | translate }}
+            </button>
+            <button type="button" class="btn btn-primary" 
+                    [disabled]="!selectedPV" 
+                    (click)="addToCart(film.iDfilm, selectedPV.iDpuntovendita, quantita)" 
+                    data-bs-dismiss="modal">
+              {{ "Conferma" | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </ng-container>
+
+  </ng-container>
+  <ng-template #loading>
+    <p class="text-white text-center">{{"Caricamento in corso o film non trovato..."| translate}}</p>
+  </ng-template>
+
+
+<!--Modale login-->
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="loginModalLabel">Login</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="login()">
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input type="text" id="username" class="form-control" [(ngModel)]="loginData.username" name="username" required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" id="password" class="form-control" [(ngModel)]="loginData.password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Login</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+
+
+
+<style>
+    
+    .accordion-button {
+        background-color: #343a40;
+        color: white; 
+        border: 1px solid #5a6268;
+    }
+
+    .accordion-button:not(.collapsed) {
+        background-color: #495057; 
+        color: white; 
+    }
+
+    
+    .accordion-body {
+        background-color: #f8f9fa; 
+        color: #343a40; 
+        padding: 1rem; 
+        border-top: 1px solid #dee2e6;
+    }
+
+    
+    .accordion-item {
+        margin-bottom: 10px;
+    }
+
+    
+    @media (max-width: 576px) {
+        .accordion {
+            width: 100%; 
+        }
+    }
+
+    
+    .card{
+        background-color: rgba(0, 0, 0, 0.7); 
+        border: 1px solid #5a6268; 
+    }
+
+    
+    .btn-primary {
+        background-color: #007bff; 
+        border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3; 
+        border-color: #0056b3;
+    }
+</style>

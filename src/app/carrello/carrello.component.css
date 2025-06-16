@@ -1,0 +1,39 @@
+/* ===== CARRELLO COMPONENT - carrello.component.css ===== */
+
+/* Mantieni solo gli stili molto specifici del carrello */
+.dashboard-container {
+  margin-top: -38px; /* Specifico per il layout del carrello */
+}
+
+.film-item {
+  background: #f8f9fa; /* Colore specifico per gli item del film */
+  margin-bottom: 1rem;
+  padding: 1.5rem !important;
+}
+
+.film-poster {
+  width: 100px !important;
+  height: auto;
+}
+
+.film-price {
+  font-size: 1.1rem !important;
+}
+
+/* Responsive specifiche del carrello */
+@media (max-width: 768px) {
+  .film-item {
+    padding: 1rem !important;
+  }
+  
+  .film-poster {
+    margin-bottom: 1rem !important;
+    margin-right: 0 !important;
+  }
+  
+  .d-flex.align-items-start {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center;
+  }
+}

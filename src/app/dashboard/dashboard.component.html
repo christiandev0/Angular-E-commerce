@@ -1,0 +1,48 @@
+<div class="dashboard-container text-white text-center py-4">
+  <h2 class="mb-2">Dashboard</h2>
+  <p class="mb-4">Benvenuto, {{ userFilter.username }}!</p>
+
+  <div class="user-info mx-auto" style="max-width: 700px;">
+    <div class="card shadow-lg p-4">
+      <h4 class="text-primary mb-4">Modifica Profilo</h4>
+
+      <form>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" id="username" class="form-control" [disabled]="!formAttivo" [(ngModel)]="userFilter.username" name="username">
+          </div>
+          <div class="col-md-6">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" [(ngModel)]="userFilter.email" name="email" [disabled]="!formAttivo">
+          </div>
+          <div class="col-md-6">
+            <label for="nome" class="form-label">Nome</label>
+            <input type="text" id="nome" class="form-control" [(ngModel)]="userFilter.nome" name="nome" [disabled]="!formAttivo">
+          </div>
+          <div class="col-md-6">
+            <label for="telefono" class="form-label">Telefono</label>
+            <input type="tel" id="telefono" class="form-control" [(ngModel)]="userFilter.telefono" name="telefono" [disabled]="!formAttivo">
+          </div>
+          <div class="col-md-6">
+            <label for="citta" class="form-label">Città</label>
+            <input type="text" id="citta" class="form-control" [(ngModel)]="userFilter.citta" name="citta" [disabled]="!formAttivo">
+          </div>
+          <div class="col-md-6">
+            <label for="indirizzo" class="form-label">Indirizzo di Spedizione</label>
+            <input type="text" id="indirizzo" class="form-control" [(ngModel)]="userFilter.indirizzoSpedizione" name="indirizzoSpedizione" [disabled]="!formAttivo">
+          </div>
+        </div>
+
+        <div class="text-end mt-4" *ngIf="formAttivo">
+          <button type="button" class="btn btn-primary px-4" (click)="updateUserInfo()">Salva Modifiche</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="mt-4 d-flex justify-content-center gap-3 flex-wrap">
+      <button class="btn btn-warning px-4" (click)="activateForm()">Modifica dati</button>
+      <button (click)="delete()" class="btn btn-danger px-4">Elimina account</button>
+    </div>
+  </div>
+</div>

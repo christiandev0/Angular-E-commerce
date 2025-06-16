@@ -1,0 +1,41 @@
+<!-- Cast Card -->
+<div class="card text-center cast-card" style="cursor: pointer; width: 10rem;" (click)="openModal()">
+  <img [src]="castData.castImg || castData.registaImg" class="card-img-top" [alt]="castData.nome + ' ' + castData.cognome"
+  (error)="onImageError($event)">
+  <div class="card-body p-2">
+    <h6 class="card-title m-0">{{ castData.nome }} {{ castData.cognome }} </h6>
+  </div>
+</div>
+
+<!-- Modal personalizzato interno al componente -->
+<div class="modal-backdrop fade show" *ngIf="showModal" style="z-index: 1040;"></div>
+<div class="modal fade show d-block" tabindex="-1" *ngIf="showModal" style="z-index: 1050;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+  {{ castData.iDregista ? ('Diretto da' | translate) : ('Film con' | translate) }} {{ castData.nome }} {{ castData.cognome }}
+</h5>
+
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        
+        <ul *ngIf="castData?.filmCollegati && castData.filmCollegati.length > 0; else noFilms" class="list-group">
+          <p>{{"Data di nascita: "| translate}} {{castData.dataNascita}} {{"Età: "| translate}} {{castData.eta}}</p>
+        <p>{{"Biografia: "| translate}} {{castData.descrizione}}</p>
+          <li *ngFor="let film of castData.filmCollegati" class="list-group-item">
+             <a [routerLink]="['/details', film.iDfilm]" > <img [src]="film.urlLocandina" alt="Locandina" class="img-thumbnail me-3" style="width: 100px; height: auto; object-fit: cover;" (error)="onImageError($event)"></a>
+            <br>
+             <a [routerLink]="['/details', film.iDfilm]" class="text-decoration-none text-dark">
+              {{ film.titolo }} </a>
+             
+          </li>
+        </ul>
+        <ng-template #noFilms>
+          <p class="text-muted">{{ 'Nessun film trovato per questo attore.' | translate }}</p>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

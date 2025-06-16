@@ -1,0 +1,126 @@
+
+
+
+<!-- Bottone apri filtri -->
+<div class="text-center mt-3 mb-4">
+  <button class="btn btn-outline-light d-inline-flex align-items-center gap-2 px-4 py-2"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#filterSidebar"
+          aria-controls="filterSidebar">
+    <i class="bi bi-search"></i>
+    {{ "Ricerca film" | translate }}
+  </button>
+</div>
+
+
+<!-- Offcanvas Sidebar Filtri -->
+<div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="filterSidebar" aria-labelledby="filterSidebarLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="filterSidebarLabel">{{ 'Filtri' | translate }}</h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+
+    
+    <form #form="ngForm" (change)="onSubmit(form)" class="mb-3">
+      <input 
+        type="text" 
+        name="searchInput" 
+        ngModel 
+        [placeholder]="'CercaTitolo' | translate" 
+        class="form-control mb-3" 
+        aria-label="Search">
+      
+      <input 
+        #yearInput
+        type="number"
+        class="form-control form-control-sm mb-3"
+        min="1900"
+        max="2025"
+        [placeholder]="'DataUscita' | translate"
+        (change)="filterByYear(yearInput.value)">
+    </form>
+
+    <!-- Dropdown Genere -->
+    <div class="dropdown mb-3">
+      <button class="btn btn-outline-light btn-sm dropdown-toggle w-100" type="button" id="genreDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        {{ "Genere" | translate }}
+      </button>
+      <ul class="dropdown-menu w-100" aria-labelledby="genreDropdown">
+        <li><button class="dropdown-item" (click)="searchByGenre('Drama')">{{"Drama" | translate}}</button></li>
+        <li><button class="dropdown-item" (click)="searchByGenre('Action')">{{"Action" | translate}}</button></li>
+        <li><button class="dropdown-item" (click)="searchByGenre('Comedy')">{{"Comedy" | translate}}</button></li>
+        <li><button class="dropdown-item" (click)="searchByGenre('Crime')">{{"Crime" | translate}}</button></li>
+        <li><button class="dropdown-item" (click)="searchByGenre('Horror')">{{"Horror" | translate}}</button></li>
+        <li><button class="dropdown-item" (click)="searchByGenre('Adventure')">{{"Adventure" | translate}}</button></li>
+        <li><button class="dropdown-item" (click)="searchByGenre('Fantasy')">{{"Fantasy" | translate}}</button></li>
+        <li><button class="dropdown-item" (click)="searchByGenre('Biography')">{{"Biography" | translate}}</button></li>
+        <li><button class="dropdown-item" (click)="searchByGenre('Sci-Fi')">{{"Sci-Fi" | translate}}</button></li>
+        <li><button class="dropdown-item" (click)="searchByGenre('Romance')">{{"Romance" | translate}}</button></li>
+      </ul>
+    </div>
+
+    <!-- Dropdown Formato -->
+    <div class="dropdown mb-3">
+      <button class="btn btn-outline-light btn-sm dropdown-toggle w-100" type="button" id="formatDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        {{ "Formato" | translate }}
+      </button>
+      <ul class="dropdown-menu w-100" aria-labelledby="formatDropdown">
+        <li><button class="dropdown-item" (click)="filterByFormato('DVD')">{{"DVD" | translate}}</button></li>
+        <li><button class="dropdown-item" (click)="filterByFormato('Blu-ray')">{{"Blu-ray" | translate}}</button></li>
+        <li><button class="dropdown-item" (click)="filterByFormato('Digital')">{{"Digital" | translate}}</button></li>
+        <li><button class="dropdown-item" (click)="filterByFormato('4K')">{{"4k" | translate}}</button></li>
+
+
+
+      </ul>
+    </div>
+
+    <!-- Reset -->
+    <div class="text-center">
+      <button class="btn btn-outline-light btn-sm" type="button" (click)="resetFilters(form)">
+        {{ 'Reset' | translate }}
+      </button>
+    </div>
+    
+  </div>
+</div>
+
+
+  <div class="container mt-5">
+  
+    <div class="row row-cols-1 row-cols-md-3 g-4 m-3">
+  
+      <!-- Singolo film filtrato -->
+<div class="col" *ngIf="filteredFilm && filteredFilm.attivo">
+  <app-card [film]="filteredFilm"></app-card>
+</div>
+
+<!-- Lista filtrata -->
+<ng-container *ngIf="filteredFilms">
+  <ng-container *ngFor="let film of filteredFilms">
+    <div class="col" *ngIf="film.attivo">
+      <app-card [film]="film"></app-card>
+    </div>
+  </ng-container>
+</ng-container>
+
+<!-- Lista completa -->
+<ng-container *ngIf="filteredFilms.length === 0 && !filteredFilm">
+  <ng-container *ngFor="let film of films">
+    <div class="col" *ngIf="film.attivo">
+      <app-card [film]="film"></app-card>
+    </div>
+  </ng-container>
+</ng-container>
+
+
+  
+    </div>
+    <div class=" text-center text-light d-flex justify-content-center align-items-center" *ngIf="loading">
+        <p class="text-center">{{ 'Nessun film trovato' | translate }}</p>
+    </div>
+  </div>
+  
+ 

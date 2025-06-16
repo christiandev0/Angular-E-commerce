@@ -1,0 +1,27 @@
+<div class="card h-100 card-film card-base hover-lift-strong">
+    <img [src]="film.urlLocandina" 
+         (error)="onImageError($event)"
+         class="card-img-top img-cover w-100 h-100"
+         [ngStyle]="{'filter': film.quantita === 0 ? 'grayscale(100%) brightness(0.5) opacity(0.8)' : 'none'}"
+         style="height: 250px;" 
+         [alt]="film.titolo">
+    
+    <div *ngIf="film.quantita === 0" 
+         class="overlay-base overlay-warning d-flex flex-column align-items-center justify-content-center text-center px-2">
+        <i class="bi bi-exclamation-triangle-fill fs-3 mb-2"></i>
+        <small>{{ "Questo film non è attualmente disponibile" | translate }}</small>
+    </div>
+    
+    <div class="card-body card-body-standard d-flex flex-column">
+        <h5 class="card-title title-primary">{{film.titolo}}</h5>
+        <p class="card-text text-secondary-custom text-truncate-custom flex-grow-1 overflow-hidden" 
+           id="descrizione" 
+           style="min-height: 80px;">
+            {{ customDescription || film.descrizione }}
+        </p>
+        <a [routerLink]="['/details', film.iDfilm]" 
+           class="mt-auto text-decoration-none text-primary">
+            {{"Dettagli"|translate}}
+        </a> 
+    </div>
+</div>

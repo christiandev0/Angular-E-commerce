@@ -1,0 +1,325 @@
+/* ===== STILI GLOBALI CENTRALIZZATI ===== */
+
+
+:root {
+  --primary-color: #0d6efd;
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --danger-color: #dc3545;
+  --dark-color: #2c3e50;
+  --light-gray: #f8f9fa;
+  --white: #ffffff;
+  --text-secondary: #555;
+  --border-radius-base: 0.75rem;
+  --border-radius-large: 15px;
+  --transition-base: all 0.2s ease;
+  --transition-smooth: all 0.3s ease;
+  --shadow-base: 0 4px 8px rgba(0,0,0,0.1);
+  --shadow-hover: 0 5px 15px rgba(0,0,0,0.1);
+  --shadow-large: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+/* === UTILITÀ GLOBALI === */
+
+/* Transizioni comuni */
+.transition-base {
+  transition: var(--transition-base);
+}
+
+.transition-smooth {
+  transition: var(--transition-smooth);
+}
+
+/* Effetti hover comuni */
+.hover-lift {
+  transition: var(--transition-base);
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.hover-lift-strong {
+  transition: var(--transition-base);
+}
+
+.hover-lift-strong:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Border radius comuni */
+.rounded-base {
+  border-radius: var(--border-radius-base);
+}
+
+.rounded-large {
+  border-radius: var(--border-radius-large);
+}
+
+/* Ombre comuni */
+.shadow-base {
+  box-shadow: var(--shadow-base);
+}
+
+.shadow-hover {
+  box-shadow: var(--shadow-hover);
+}
+
+.shadow-large {
+  box-shadow: var(--shadow-large);
+}
+
+/* === CARD COMUNI === */
+
+/* Card base - stile condiviso */
+.card-base {
+  border: none;
+  border-radius: var(--border-radius-large);
+  box-shadow: var(--shadow-large);
+  transition: var(--transition-base);
+  overflow: hidden;
+}
+
+.card-base:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* Header card con colore primario */
+.card-header-primary {
+  background-color: var(--primary-color);
+  color: var(--white);
+  font-weight: 500;
+  border-radius: 0.3rem 0.3rem 0 0;
+  padding-bottom: 8px;
+  margin-bottom: 2px;
+}
+
+/* Body card standard */
+.card-body-standard {
+  padding: 1rem;
+  background-color: var(--white);
+}
+
+/* === IMMAGINI COMUNI === */
+
+/* Immagini con object-fit cover */
+.img-cover {
+  object-fit: fill;
+  width: 100%;
+}
+
+
+
+.img-rounded {
+  border-radius: 0.5rem;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+}
+
+.img-hover-lift {
+  transition: var(--transition-base);
+}
+
+.img-hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* === TIPOGRAFIA COMUNE === */
+
+/* Titoli */
+.title-primary {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--dark-color);
+}
+
+.title-shadow {
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  font-weight: 600;
+}
+
+/* Testo */
+.text-truncate-custom {
+  max-height: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-info-small {
+  font-size: 0.9rem;
+}
+
+.text-secondary-custom {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+/* Label */
+.label-primary {
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-right: 0.25rem;
+}
+
+/* Prezzi */
+.price-success {
+  color: var(--success-color);
+  font-weight: bold;
+}
+
+.price-large {
+  font-size: 1.25rem;
+}
+
+.price-extra-large {
+  font-size: 1.3rem;
+}
+
+/* === BOTTONI PERSONALIZZATI === */
+
+/* Bottone base personalizzato */
+.btn-custom-base {
+  border-radius: 8px;
+  font-weight: 500;
+  transition: var(--transition-smooth);
+  text-decoration: none;
+}
+
+.btn-custom-base:hover {
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+
+/* Bottone primario personalizzato */
+.btn-primary-custom {
+  background: linear-gradient(135deg, var(--primary-color), #667eea);
+  border: none;
+  border-radius: 10px;
+  padding: 0.75rem 2rem;
+  font-weight: 600;
+  color: var(--white);
+  min-width: 200px;
+}
+
+.btn-primary-custom:hover {
+  background: linear-gradient(135deg, #0b5ed7, #5a6fd8);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Bottone navigazione personalizzato */
+.btn-nav-custom {
+  border-radius: 25px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  transition: var(--transition-smooth);
+  text-decoration: none;
+}
+
+.btn-nav-custom:hover {
+  background: rgba(255,255,255,0.2);
+  border-color: rgba(255,255,255,0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255,255,255,0.2);
+}
+
+/* Bottone rimuovi personalizzato */
+.btn-remove-custom {
+  border-radius: 8px;
+  transition: var(--transition-base);
+}
+
+.btn-remove-custom:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+/* === INPUT PERSONALIZZATI === */
+
+.input-quantity {
+  width: 80px;
+  text-align: center;
+  border-radius: 8px;
+}
+
+.input-quantity:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+/* === OVERLAY === */
+
+.overlay-base {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: var(--border-radius-base);
+}
+
+.overlay-warning {
+  background-color: rgba(33, 37, 41, 0.6);
+  color: var(--warning-color);
+}
+
+/* === LAYOUT UTILITIES === */
+
+.container-dashboard {
+  min-height: 100vh;
+  padding: 2rem 0;
+}
+
+.backdrop-blur {
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* === RESPONSIVE UTILITIES === */
+
+@media (max-width: 768px) {
+  .container-dashboard {
+    padding: 1rem 0;
+  }
+  
+  .btn-primary-custom {
+    width: 100%;
+    min-width: auto;
+  }
+  
+  .mobile-stack {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+/* === STATI VUOTI === */
+
+.empty-state {
+  padding: 2rem;
+  text-align: center;
+}
+
+.empty-state-content {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.2);
+  max-width: 600px;
+  margin: 0 auto;
+  border-radius: var(--border-radius-large);
+  padding: 2rem;
+}
+
+.empty-state-icon {
+  width: 80px;
+  height: 80px;
+  opacity: 0.7;
+  filter: brightness(0) invert(1);
+  margin-bottom: 1rem;
+}

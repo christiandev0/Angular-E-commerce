@@ -1,0 +1,100 @@
+<div *ngIf="ordini.length > 0; else noOrdini">
+  <h2 class="text-center title-primary mb-4">{{ "Ordini effettuati" | translate }}</h2>
+  
+  <div class="d-flex flex-column align-items-center">
+    <div *ngFor="let ordine of ordini" class="card card-base hover-lift mb-4" style="max-width: 800px; width: 100%;">
+      
+      <!-- Header dell'ordine -->
+      <div class="card-header card-header-primary">
+        <strong>{{ "Ordine n°" | translate }} {{ ordine.iDordine }}</strong> - 
+        <span class="badge bg-light text-dark ms-2">{{ "Stato" | translate }}: {{ ordine.statoOrdine }}</span>
+      </div>
+
+      <!-- Body dell'ordine -->
+      <div class="card-body card-body-standard">
+        <div *ngFor="let film of ordine.dettagliOrdine" class="row align-items-center mb-3">
+          
+          <!-- Immagine del film -->
+          <div class="col-md-3 text-center">
+            <a [routerLink]="['/details', film.iDfilm]" class="text-decoration-none">
+              <img [src]="film.urlLocandina"
+                   class="img-cover img-rounded img-hover-lift"
+                   style="height: 120px; max-width: 100px;"
+                   alt="{{ film.titoloFilm }}"
+                   (error)="onImageError($event)">
+            </a>
+          </div>
+
+          <!-- Dettagli del film -->
+          <div class="col-md-9">
+            <h5 class="title-primary mb-2">{{ film.titoloFilm }}</h5>
+            
+            <div class="text-secondary-custom">
+              <div class="mb-1">
+                <span class="label-primary">{{ "Venditore" | translate }}:</span>
+                {{ film.nomePuntoVendita }}
+              </div>
+              
+              <div class="mb-1">
+                <span class="label-primary">{{ "Indirizzo" | translate }}:</span>
+                {{ film.indirizzoPuntoVendita }}
+              </div>
+              
+              <div class="mb-1">
+                <span class="label-primary">{{ "Quantità" | translate }}:</span>
+                <span class="fw-bold">{{ film.quantitaFilm }}</span>
+              </div>
+              
+              <div class="mb-1">
+                <span class="label-primary">{{ "Prezzo" | translate }}:</span>
+                <span class="price-success price-large">{{ film.prezzo }}$</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Separatore e totale -->
+        <hr class="my-3">
+        
+        <div class="d-flex justify-content-end">
+          <div class="text-end">
+            <span class="label-primary text-info-small">{{ "Totale Ordine" | translate }}:</span>
+            <div class="price-success price-extra-large fw-bold">
+              {{ ordine.prezzoTotale | currency }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Stato vuoto - Nessun ordine -->
+<ng-template #noOrdini>
+  <div class="empty-state">
+    <div class="empty-state-content shadow-large">
+      <!-- Icona opzionale -->
+      <div class="mb-4">
+        <i class="fas fa-shopping-cart empty-state-icon mx-auto d-block"></i>
+      </div>
+      
+      <h3 class="title-primary title-shadow mb-3">
+        {{ "Nessun Ordine effettuato" | translate }}
+      </h3>
+      
+      <p class="text-secondary-custom mb-4">
+        {{ "Aggiungi film al carrello" | translate }}
+      </p>
+      
+      <div class="d-flex flex-wrap justify-content-center gap-3 mobile-stack">
+        <a routerLink="/catalogo" class="btn btn-primary-custom hover-lift transition-smooth">
+          {{ "Visita il catalogo!" | translate }}
+        </a>
+        
+        <a routerLink="/news" class="btn btn-outline-light btn-nav-custom hover-lift">
+          {{ "Vai alle news!" | translate }}
+        </a>
+      </div>
+    </div>
+  </div>
+</ng-template>
